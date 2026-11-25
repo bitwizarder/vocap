@@ -1,0 +1,1643 @@
+<!doctype html>
+<html lang="fa" dir="rtl" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vocap Documentation</title>
+    <meta
+      name="description"
+      content="Official documentation for Vocap: The offline video subtitle and transcript editor."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&family=Vazirmatn:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --brand: #6366f1;
+        --brand-hover: #4f46e5;
+        --brand-soft: rgba(99, 102, 241, 0.14);
+        --brand-border: rgba(99, 102, 241, 0.35);
+        --radius: 12px;
+        --header-h: 64px;
+        --font-sans: "Vazirmatn", Tahoma, system-ui, sans-serif;
+        --font-mono: "JetBrains Mono", ui-monospace, monospace;
+      }
+
+      /* Dynamic Font Loading based on language */
+      html[lang="en"] {
+        --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+      }
+
+      html[data-theme="dark"] {
+        --bg: #0b0f19;
+        --bg-elevated: #111827;
+        --bg-subtle: #161f31;
+        --bg-header: rgba(11, 15, 25, 0.85);
+        --border: rgba(148, 163, 184, 0.16);
+        --border-strong: rgba(148, 163, 184, 0.28);
+        --text: #f1f5f9;
+        --text-secondary: #cbd5e1;
+        --text-muted: #94a3b8;
+        --code-bg: #1e293b;
+        --tip-bg: rgba(16, 185, 129, 0.1);
+        --tip-border: rgba(16, 185, 129, 0.38);
+        --tip-text: #34d399;
+        --warn-bg: rgba(245, 158, 11, 0.1);
+        --warn-border: rgba(245, 158, 11, 0.38);
+        --warn-text: #fbbf24;
+        --info-bg: rgba(99, 102, 241, 0.12);
+        --info-border: rgba(99, 102, 241, 0.38);
+        --info-text: #a5b4fc;
+        --shadow: 0 18px 45px rgba(0, 0, 0, 0.45);
+      }
+
+      html[data-theme="light"] {
+        --bg: #ffffff;
+        --bg-elevated: #f8fafc;
+        --bg-subtle: #f1f5f9;
+        --bg-header: rgba(255, 255, 255, 0.88);
+        --border: #e2e8f0;
+        --border-strong: #cbd5e1;
+        --text: #0f172a;
+        --text-secondary: #334155;
+        --text-muted: #64748b;
+        --code-bg: #f1f5f9;
+        --tip-bg: #ecfdf5;
+        --tip-border: #6ee7b7;
+        --tip-text: #047857;
+        --warn-bg: #fffbeb;
+        --warn-border: #fcd34d;
+        --warn-text: #b45309;
+        --info-bg: #eef2ff;
+        --info-border: #a5b4fc;
+        --info-text: #4338ca;
+        --shadow: 0 18px 45px rgba(15, 23, 42, 0.12);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+        scroll-padding-top: calc(var(--header-h) + 24px);
+      }
+      body {
+        margin: 0;
+        font-family: var(--font-sans);
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.85;
+        font-size: 15.5px;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      a {
+        color: var(--brand);
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+
+      code {
+        font-family: var(--font-mono);
+        font-size: 0.86em;
+        background: var(--code-bg);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 0.12em 0.45em;
+        direction: ltr;
+        unicode-bidi: isolate;
+        display: inline-block;
+      }
+
+      .ltr {
+        direction: ltr;
+        unicode-bidi: isolate;
+        display: inline-block;
+      }
+
+      /* Top Header */
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 40;
+        height: var(--header-h);
+        background: var(--bg-header);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
+      }
+      .topbar-inner {
+        max-width: 1440px;
+        margin: 0 auto;
+        height: 100%;
+        padding: 0 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+      .brand-group {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .menu-btn {
+        display: none;
+        width: 38px;
+        height: 38px;
+        border-radius: 9px;
+        border: 1px solid var(--border);
+        background: var(--bg-elevated);
+        color: var(--text);
+        cursor: pointer;
+        align-items: center;
+        justify-content: center;
+      }
+      .brand-link {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--text);
+        font-weight: 800;
+        font-size: 1.12rem;
+      }
+      .brand-link:hover {
+        text-decoration: none;
+      }
+      .brand-logo {
+        width: 34px;
+        height: 34px;
+        border-radius: 10px;
+        background: linear-gradient(135deg, #6366f1 0%, #4338ca 100%);
+        color: #fff;
+        display: grid;
+        place-items: center;
+        font-weight: 800;
+        font-size: 0.95rem;
+        box-shadow: 0 6px 18px rgba(99, 102, 241, 0.35);
+      }
+      .brand-sub {
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: var(--text-muted);
+        border-right: 1px solid var(--border);
+        padding-right: 10px;
+      }
+      html[lang="en"] .brand-sub {
+        border-right: none;
+        border-left: 1px solid var(--border);
+        padding-right: 0;
+        padding-left: 10px;
+      }
+
+      .topbar-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      /* Segmented Lang Switch */
+      .lang-switch {
+        display: flex;
+        background: var(--bg-elevated);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 2px;
+      }
+      .lang-btn {
+        border: none;
+        background: transparent;
+        color: var(--text-muted);
+        padding: 4px 10px;
+        border-radius: 6px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        cursor: pointer;
+        font-family: inherit;
+      }
+      .lang-btn.active {
+        background: var(--bg-card);
+        color: var(--text);
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .version-select-wrap {
+        position: relative;
+        display: flex;
+        align-items: center;
+      }
+      .version-select {
+        appearance: none;
+        font-family: var(--font-sans);
+        font-size: 0.84rem;
+        font-weight: 700;
+        background: var(--brand-soft);
+        color: var(--brand);
+        border: 1px solid var(--brand-border);
+        border-radius: 8px;
+        padding: 6px 12px;
+        cursor: pointer;
+        outline: none;
+      }
+
+      .search-trigger {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        height: 36px;
+        padding: 0 12px;
+        border-radius: 9px;
+        border: 1px solid var(--border);
+        background: var(--bg-elevated);
+        color: var(--text-muted);
+        font-family: var(--font-sans);
+        font-size: 0.85rem;
+        cursor: pointer;
+        min-width: 210px;
+        justify-content: space-between;
+        transition: border-color 0.15s ease;
+      }
+      .search-trigger:hover {
+        border-color: var(--brand);
+        color: var(--text);
+      }
+      .kbd {
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        padding: 1px 6px;
+        border-radius: 5px;
+        border: 1px solid var(--border-strong);
+        background: var(--bg);
+        color: var(--text-muted);
+        direction: ltr;
+      }
+
+      .icon-btn {
+        width: 36px;
+        height: 36px;
+        border-radius: 9px;
+        border: 1px solid var(--border);
+        background: var(--bg-elevated);
+        color: var(--text);
+        cursor: pointer;
+        display: grid;
+        place-items: center;
+        font-size: 1rem;
+      }
+      .icon-btn:hover {
+        border-color: var(--brand);
+      }
+
+      .header-link {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--text-secondary);
+        padding: 6px 10px;
+        border-radius: 8px;
+      }
+      .header-link:hover {
+        background: var(--bg-subtle);
+        text-decoration: none;
+      }
+
+      /* Layout */
+      .layout {
+        max-width: 1440px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 270px minmax(0, 1fr) 230px;
+        gap: 32px;
+        padding: 0 20px;
+      }
+
+      /* Sidebar */
+      .sidebar {
+        position: sticky;
+        top: var(--header-h);
+        height: calc(100vh - var(--header-h));
+        overflow-y: auto;
+        padding: 24px 0 40px 12px;
+        border-left: 1px solid var(--border);
+      }
+      html[lang="en"] .sidebar {
+        border-left: none;
+        border-right: 1px solid var(--border);
+        padding: 24px 12px 40px 0;
+      }
+      .nav-group {
+        margin-bottom: 22px;
+      }
+      .nav-group-title {
+        font-size: 0.76rem;
+        font-weight: 800;
+        color: var(--text-muted);
+        padding: 0 10px;
+        margin-bottom: 8px;
+      }
+      .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        width: 100%;
+        text-align: right;
+        border: 0;
+        background: transparent;
+        color: var(--text-secondary);
+        font-family: var(--font-sans);
+        font-size: 0.9rem;
+        font-weight: 500;
+        padding: 7px 12px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition:
+          background 0.14s ease,
+          color 0.14s ease;
+      }
+      html[lang="en"] .nav-item {
+        text-align: left;
+      }
+      .nav-item:hover {
+        background: var(--bg-subtle);
+        color: var(--text);
+      }
+      .nav-item.active {
+        background: var(--brand-soft);
+        color: var(--brand);
+        font-weight: 700;
+        box-shadow: inset -3px 0 0 var(--brand);
+      }
+      html[lang="en"] .nav-item.active {
+        box-shadow: inset 3px 0 0 var(--brand);
+      }
+
+      /* Main Content */
+      .main {
+        min-width: 0;
+        padding: 32px 4px 64px;
+        max-width: 820px;
+        width: 100%;
+        margin: 0 auto;
+      }
+      .doc-meta {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 12px;
+        font-size: 0.82rem;
+        color: var(--text-muted);
+      }
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 0.76rem;
+        font-weight: 700;
+        padding: 2px 9px;
+        border-radius: 6px;
+        background: var(--brand-soft);
+        color: var(--brand);
+        border: 1px solid var(--brand-border);
+      }
+      .doc-title {
+        margin: 0 0 10px;
+        font-size: clamp(1.65rem, 2.8vw, 2.2rem);
+        font-weight: 800;
+        line-height: 1.3;
+      }
+      .doc-lead {
+        margin: 0 0 28px;
+        font-size: 1.04rem;
+        color: var(--text-secondary);
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 22px;
+      }
+
+      .prose h2 {
+        margin: 34px 0 12px;
+        font-size: 1.32rem;
+        font-weight: 800;
+        padding-bottom: 8px;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .prose h3 {
+        margin: 24px 0 8px;
+        font-size: 1.06rem;
+        font-weight: 700;
+      }
+      .prose p {
+        margin: 0 0 14px;
+        color: var(--text-secondary);
+      }
+      .prose ul,
+      .prose ol {
+        margin: 0 0 16px;
+        padding-inline-start: 22px;
+        color: var(--text-secondary);
+      }
+      .prose li {
+        margin-bottom: 7px;
+      }
+      .prose strong {
+        color: var(--text);
+        font-weight: 700;
+      }
+
+      .anchor-link {
+        opacity: 0;
+        color: var(--brand);
+        font-weight: 700;
+        transition: opacity 0.15s ease;
+      }
+      .prose h2:hover .anchor-link,
+      .prose h3:hover .anchor-link {
+        opacity: 1;
+      }
+
+      /* Callouts */
+      .callout {
+        border-radius: var(--radius);
+        padding: 14px 16px;
+        margin: 18px 0;
+        border: 1px solid var(--border);
+        border-inline-start-width: 4px;
+      }
+      .callout-title {
+        font-weight: 800;
+        font-size: 0.9rem;
+        margin-bottom: 4px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .callout p {
+        margin: 0;
+        font-size: 0.92rem;
+      }
+      .callout.tip {
+        background: var(--tip-bg);
+        border-color: var(--tip-border);
+      }
+      .callout.tip .callout-title {
+        color: var(--tip-text);
+      }
+      .callout.warn {
+        background: var(--warn-bg);
+        border-color: var(--warn-border);
+      }
+      .callout.warn .callout-title {
+        color: var(--warn-text);
+      }
+      .callout.info {
+        background: var(--info-bg);
+        border-color: var(--info-border);
+      }
+      .callout.info .callout-title {
+        color: var(--info-text);
+      }
+
+      /* Cards & Steps */
+      .steps {
+        display: grid;
+        gap: 12px;
+        margin: 18px 0 22px;
+      }
+      .step-card {
+        display: flex;
+        gap: 14px;
+        background: var(--bg-elevated);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 14px 16px;
+      }
+      .step-num {
+        flex-shrink: 0;
+        width: 30px;
+        height: 30px;
+        border-radius: 8px;
+        background: var(--brand-soft);
+        color: var(--brand);
+        border: 1px solid var(--brand-border);
+        font-weight: 800;
+        display: grid;
+        place-items: center;
+        font-size: 0.9rem;
+      }
+      .step-body h4 {
+        margin: 0 0 4px;
+        font-size: 0.98rem;
+        color: var(--text);
+      }
+      .step-body p {
+        margin: 0;
+        font-size: 0.91rem;
+      }
+
+      .card-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 12px;
+        margin: 18px 0 22px;
+      }
+      .mini-card {
+        background: var(--bg-elevated);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 14px 16px;
+      }
+      .mini-card h4 {
+        margin: 0 0 6px;
+        font-size: 0.95rem;
+        color: var(--text);
+      }
+      .mini-card p {
+        margin: 0;
+        font-size: 0.88rem;
+        color: var(--text-muted);
+      }
+
+      /* Tables */
+      .table-wrap {
+        overflow-x: auto;
+        margin: 16px 0 22px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        background: var(--bg-elevated);
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.9rem;
+      }
+      th,
+      td {
+        padding: 11px 14px;
+        text-align: start;
+        border-bottom: 1px solid var(--border);
+      }
+      th {
+        background: var(--bg-subtle);
+        color: var(--text);
+        font-weight: 700;
+        font-size: 0.84rem;
+      }
+      tr:last-child td {
+        border-bottom: 0;
+      }
+
+      /* Pager */
+      .pager {
+        margin-top: 44px;
+        padding-top: 22px;
+        border-top: 1px solid var(--border);
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+      }
+      .pager-btn {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+        padding: 14px 16px;
+        border-radius: var(--radius);
+        border: 1px solid var(--border);
+        background: var(--bg-elevated);
+        cursor: pointer;
+        text-align: start;
+        font-family: var(--font-sans);
+      }
+      .pager-btn:hover {
+        border-color: var(--brand);
+      }
+      .pager-dir {
+        font-size: 0.76rem;
+        color: var(--text-muted);
+      }
+      .pager-title {
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: var(--brand);
+      }
+
+      /* TOC */
+      .toc {
+        position: sticky;
+        top: var(--header-h);
+        height: calc(100vh - var(--header-h));
+        overflow-y: auto;
+        padding: 28px 8px 40px 0;
+      }
+      .toc-title {
+        font-size: 0.76rem;
+        font-weight: 800;
+        color: var(--text-muted);
+        margin-bottom: 10px;
+      }
+      .toc-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        border-inline-start: 1px solid var(--border);
+      }
+      .toc-link {
+        display: block;
+        padding: 5px 12px;
+        font-size: 0.84rem;
+        color: var(--text-muted);
+        border-inline-start: 2px solid transparent;
+        margin-inline-start: -1px;
+      }
+      .toc-link:hover {
+        color: var(--text);
+        text-decoration: none;
+      }
+      .toc-link.active {
+        color: var(--brand);
+        border-inline-start-color: var(--brand);
+        font-weight: 700;
+      }
+
+      /* Search Modal */
+      .modal-backdrop {
+        position: fixed;
+        inset: 0;
+        z-index: 60;
+        background: rgba(2, 6, 23, 0.68);
+        backdrop-filter: blur(4px);
+        display: none;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 80px 16px 24px;
+      }
+      .modal-backdrop.open {
+        display: flex;
+      }
+      .search-modal {
+        width: 100%;
+        max-width: 620px;
+        background: var(--bg-elevated);
+        border: 1px solid var(--border-strong);
+        border-radius: 14px;
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+      .search-input-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 16px;
+        border-bottom: 1px solid var(--border);
+      }
+      .search-input {
+        flex: 1;
+        border: 0;
+        background: transparent;
+        color: var(--text);
+        font-family: var(--font-sans);
+        font-size: 1rem;
+        outline: none;
+      }
+      .search-results {
+        max-height: 390px;
+        overflow-y: auto;
+        padding: 10px;
+      }
+      .search-hit {
+        display: block;
+        width: 100%;
+        text-align: start;
+        background: transparent;
+        border: 1px solid transparent;
+        border-radius: 10px;
+        padding: 10px 12px;
+        cursor: pointer;
+        font-family: var(--font-sans);
+        margin-bottom: 4px;
+      }
+      .search-hit:hover {
+        background: var(--brand-soft);
+        border-color: var(--brand-border);
+      }
+      .search-hit-title {
+        font-weight: 700;
+        color: var(--text);
+        font-size: 0.94rem;
+      }
+      .search-hit-cat {
+        font-size: 0.76rem;
+        color: var(--brand);
+        margin-bottom: 2px;
+      }
+      .search-hit-snippet {
+        font-size: 0.82rem;
+        color: var(--text-muted);
+      }
+      .search-empty {
+        text-align: center;
+        padding: 28px 16px;
+        color: var(--text-muted);
+        font-size: 0.92rem;
+      }
+
+      .drawer-backdrop {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 45;
+        background: rgba(2, 6, 23, 0.6);
+      }
+      .drawer-backdrop.open {
+        display: block;
+      }
+
+      @media (max-width: 1140px) {
+        .layout {
+          grid-template-columns: 250px minmax(0, 1fr);
+        }
+        .toc {
+          display: none;
+        }
+      }
+      @media (max-width: 860px) {
+        .layout {
+          grid-template-columns: minmax(0, 1fr);
+          gap: 0;
+        }
+        .menu-btn {
+          display: inline-flex;
+        }
+        .brand-sub,
+        .header-link {
+          display: none;
+        }
+        .search-trigger {
+          min-width: 0;
+          width: 38px;
+          padding: 0;
+          justify-content: center;
+        }
+        .search-trigger .search-label,
+        .search-trigger .kbd {
+          display: none;
+        }
+        .sidebar {
+          position: fixed;
+          top: 0;
+          inset-inline-end: -300px;
+          width: 280px;
+          height: 100vh;
+          z-index: 50;
+          background: var(--bg-elevated);
+          padding: 20px 12px 40px;
+          transition: inset-inline-end 0.2s ease;
+          box-shadow: var(--shadow);
+        }
+        .sidebar.open {
+          inset-inline-end: 0;
+        }
+        .pager {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="topbar-inner">
+        <div class="brand-group">
+          <button class="menu-btn" id="menuBtn" aria-label="Menu">☰</button>
+          <a class="brand-link" href="#" id="brandHome">
+            <span class="brand-logo">V</span>
+            
+            <span>Vocap</span>
+          </a>
+          <span class="brand-sub" id="brandSub">Documentation</span>
+        </div>
+
+        <div class="topbar-actions">
+          <!-- Language Toggle -->
+          <div class="lang-switch">
+            <button
+              type="button"
+              id="btn-en"
+              class="lang-btn"
+              onclick="setLang('en')"
+            >
+              EN
+            </button>
+            <button
+              type="button"
+              id="btn-fa"
+              class="lang-btn active"
+              onclick="setLang('fa')"
+            >
+              FA
+            </button>
+          </div>
+
+          <div class="version-select-wrap">
+            <select
+              class="version-select"
+              id="versionSelect"
+              aria-label="Version"
+            ></select>
+          </div>
+
+          <button class="search-trigger" id="searchBtn">
+            <span class="search-label" id="searchLabel">Search docs...</span>
+            <span class="kbd">Ctrl K</span>
+          </button>
+
+          <a
+            class="header-link"
+            href="https://bitwizarder.github.io/vocap/vocap-privacy/"
+            target="_blank"
+            rel="noopener"
+            id="privacyLink"
+            >Privacy Policy</a
+          >
+
+          <button class="icon-btn" id="themeBtn" aria-label="Toggle Theme">
+            🌙
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div class="drawer-backdrop" id="drawerBackdrop"></div>
+
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="main">
+        <div id="docRoot"></div>
+        <footer class="doc-footer">
+          <span id="footerText"
+            >Vocap — Smart, fully offline subtitles for Android</span
+          >
+          <span>
+            <a href="mailto:vocap.services@gmail.com" class="ltr"
+              >vocap.services@gmail.com</a
+            >
+          </span>
+        </footer>
+      </main>
+      <aside class="toc">
+        <div class="toc-title" id="tocTitle">On this page</div>
+        <ul class="toc-list" id="tocList"></ul>
+      </aside>
+    </div>
+
+    <div class="modal-backdrop" id="searchModal">
+      <div class="search-modal">
+        <div class="search-input-row">
+          <span>🔍</span>
+          <input
+            class="search-input"
+            id="searchInput"
+            type="text"
+            placeholder="Type to search..."
+            autocomplete="off"
+          />
+          <button class="kbd" id="searchClose" style="cursor: pointer">
+            ESC
+          </button>
+        </div>
+        <div class="search-results" id="searchResults"></div>
+      </div>
+    </div>
+
+    <script>
+      const DEFAULT_VERSION = "1.0.0";
+
+      // Sanitized, bilingual documentation data
+      const DOC_VERSIONS = {
+        "1.0.0": {
+          label: "v1.0.0",
+          releaseDate: { en: "November 2026", fa: "آذر ۱۴۰۵" },
+          en: {
+            pages: [
+              {
+                id: "intro",
+                group: "Getting Started",
+                title: "Introduction & Quick Start",
+                lead: "Vocap is a complete, 100% offline studio for creating, editing, and styling video subtitles on Android — no server uploads required.",
+                keywords: [
+                  "start",
+                  "offline",
+                  "install",
+                  "android",
+                  "quick",
+                  "video",
+                  "tour",
+                ],
+                body: `
+                <div class="callout tip">
+                  <div class="callout-title">✓ 100% Offline & Private</div>
+                  <p>All audio extraction, speech-to-text, and video rendering happen directly on your device. No video, audio, or text is ever sent to any server.</p>
+                </div>
+                <h2 id="quick-start">4 Steps to Your First Subtitled Video <a class="anchor-link" href="#quick-start">#</a></h2>
+                <div class="steps">
+                  <div class="step-card"><div class="step-num">1</div><div class="step-body"><h4>Select & Download a Whisper Model</h4><p>Go to the home screen, tap "Active Model", and download one of the offline models (Whisper Base is recommended for a good balance).</p></div></div>
+                  <div class="step-card"><div class="step-num">2</div><div class="step-body"><h4>Choose a Video or Subtitle</h4><p>Select your video to auto-generate subtitles, or tap "Import Subtitle File" to load an existing SRT/VTT without processing audio.</p></div></div>
+                  <div class="step-card"><div class="step-num">3</div><div class="step-body"><h4>Edit, Style & Position</h4><p>Correct text, apply custom styles or fonts, drag subtitles directly on the video preview, and add bilingual tracks if needed.</p></div></div>
+                  <div class="step-card"><div class="step-num">4</div><div class="step-body"><h4>10-Second Test & Final Export</h4><p>Use the "10s Test Export" to instantly verify quality, then export the full MP4 or SRT/VTT/ASS files.</p></div></div>
+                </div>
+                <h2 id="requirements">Device Requirements <a class="anchor-link" href="#requirements">#</a></h2>
+                <ul>
+                  <li><strong>Android 8.0 (API 26)</strong> or higher</li>
+                  <li>150 to 500 MB of free space for offline models and temporary files</li>
+                  <li>Internet is only required once to download the Whisper model.</li>
+                </ul>
+                `,
+              },
+              {
+                id: "models",
+                group: "Getting Started",
+                title: "Offline Whisper Models & Storage",
+                lead: "Choosing the right model balances processing speed and the accuracy of transcription in different languages.",
+                keywords: [
+                  "model",
+                  "whisper",
+                  "base",
+                  "small",
+                  "medium",
+                  "storage",
+                  "cache",
+                ],
+                body: `
+                <h2 id="model-list">Available Models <a class="anchor-link" href="#model-list">#</a></h2>
+                <div class="table-wrap">
+                  <table>
+                    <thead><tr><th>Model</th><th>Approx. Size</th><th>Recommended Use</th></tr></thead>
+                    <tbody>
+                      <tr><td><strong>Whisper Base</strong></td><td><span class="ltr">142 MB</span></td><td>Best balance for mid-range devices</td></tr>
+                      <tr><td><strong>Whisper Small (q5_1)</strong></td><td><span class="ltr">181 MB</span></td><td>Higher accuracy, compressed size</td></tr>
+                      <tr><td><strong>Whisper Small</strong></td><td><span class="ltr">466 MB</span></td><td>High accuracy for professional content</td></tr>
+                      <tr><td><strong>Whisper Medium</strong></td><td><span class="ltr">1.5 GB</span></td><td>Highest accuracy; requires powerful devices</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+                <h2 id="storage-cache">Storage & Cache Management <a class="anchor-link" href="#storage-cache">#</a></h2>
+                <p>In <strong>Settings > Storage & Cache</strong>, you can view space usage for models, projects, and temp files. Use <strong>Clear Temp Cache</strong> to remove old files without deleting projects or models.</p>
+                `,
+              },
+              {
+                id: "editor",
+                group: "Editing & Content",
+                title: "Editor, Timeline & Haptics",
+                lead: "Precise control over start/end times, splitting and merging segments, zoomable timeline, and 50-step Undo/Redo.",
+                keywords: [
+                  "timeline",
+                  "editor",
+                  "split",
+                  "merge",
+                  "undo",
+                  "zoom",
+                  "haptics",
+                ],
+                body: `
+                <h2 id="timeline-controls">Working with the Timeline <a class="anchor-link" href="#timeline-controls">#</a></h2>
+                <ul>
+                  <li><strong>Pinch-to-Zoom:</strong> Use two fingers to zoom in/out for precise boundary editing.</li>
+                  <li><strong>Trim:</strong> Drag the left/right handles of any subtitle block.</li>
+                  <li><strong>Precision:</strong> Enable "Show hundredths of a second" in settings for ultra-fine timing.</li>
+                </ul>
+                <h2 id="segment-actions">Segment Actions <a class="anchor-link" href="#segment-actions">#</a></h2>
+                <div class="table-wrap">
+                  <table>
+                    <thead><tr><th>Tool</th><th>Function</th></tr></thead>
+                    <tbody>
+                      <tr><td><strong>Split</strong></td><td>Break a long segment into two at the playhead position.</td></tr>
+                      <tr><td><strong>Merge</strong></td><td>Combine the selected segment with the next one, preserving timing.</td></tr>
+                      <tr><td><strong>Undo / Redo</strong></td><td>Support for up to 50 steps of history.</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+                `,
+              },
+              {
+                id: "bilingual",
+                group: "Styling & Bilingual",
+                title: "Bilingual Subtitles & AI Translation",
+                lead: "Display two languages simultaneously with independent styling, import a second SRT, and swap languages instantly.",
+                keywords: [
+                  "bilingual",
+                  "translation",
+                  "ai",
+                  "clipboard",
+                  "swap",
+                  "secondary",
+                ],
+                body: `
+                <h2 id="bilingual-tracks">Managing Primary & Secondary Tracks <a class="anchor-link" href="#bilingual-tracks">#</a></h2>
+                <p>Each segment has a dedicated field for <strong>secondary text (translation)</strong>. You can control the appearance, color, background, and highlight of both tracks independently.</p>
+                <h2 id="ai-workflow">AI Translation Workflow (Clipboard) <a class="anchor-link" href="#ai-workflow">#</a></h2>
+                <div class="steps">
+                  <div class="step-card"><div class="step-num">1</div><div class="step-body"><h4>Copy the standard prompt</h4><p>Go to Smart Tools and copy the pre-formatted prompt, which preserves the segment numbering.</p></div></div>
+                  <div class="step-card"><div class="step-num">2</div><div class="step-body"><h4>Translate in your preferred AI</h4><p>Paste the prompt into ChatGPT, Gemini, or Claude, and copy the response.</p></div></div>
+                  <div class="step-card"><div class="step-num">3</div><div class="step-body"><h4>Apply to secondary text</h4><p>Paste the response back into Vocap. Translations are automatically applied to the secondary field.</p></div></div>
+                </div>
+                `,
+              },
+              {
+                id: "export",
+                group: "Export & Legal",
+                title: "Video Export, 10s Test & Subtitle Files",
+                lead: "Render MP4 with burned-in subtitles at three quality levels, use the 10-second test export, and save SRT/VTT/ASS files.",
+                keywords: ["export", "mp4", "srt", "vtt", "quality", "save"],
+                body: `
+                <h2 id="preview-clip">10-Second Test Export <a class="anchor-link" href="#preview-clip">#</a></h2>
+                <p>Before rendering a full video, use the <strong>10s Test Export</strong> to quickly verify font, size, color, shadow, and positioning.</p>
+                <h2 id="mp4-export">MP4 Quality Settings <a class="anchor-link" href="#mp4-export">#</a></h2>
+                <div class="table-wrap">
+                  <table>
+                    <thead><tr><th>Quality</th><th>Bitrate</th><th>Recommended For</th></tr></thead>
+                    <tbody>
+                      <tr><td><strong>High</strong></td><td><span class="ltr">8000 kbps</span></td><td>Professional publishing and archiving</td></tr>
+                      <tr><td><strong>Balanced</strong></td><td><span class="ltr">4500 kbps</span></td><td>Instagram, TikTok, Telegram (Default)</td></tr>
+                      <tr><td><strong>Small</strong></td><td><span class="ltr">2200 kbps</span></td><td>Quick sharing or very long videos</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+                `,
+              },
+              {
+                id: "privacy-faq",
+                group: "Export & Legal",
+                title: "Privacy, Open Source & FAQ",
+                lead: "Full transparency about offline data processing, open-source licenses, and answers to common questions.",
+                keywords: ["privacy", "license", "faq", "support", "email"],
+                body: `
+                <h2 id="privacy">Privacy Policy <a class="anchor-link" href="#privacy">#</a></h2>
+                <p>Vocap is designed to work <strong>100% offline</strong>. Your media and text stay on your device. Read the full policy here:</p>
+                <p><a href="https://bitwizarder.github.io/vocap/vocap-privacy/" target="_blank" rel="noopener">View Vocap Privacy Policy ↗</a></p>
+                <h2 id="licenses">Open Source Licenses <a class="anchor-link" href="#licenses">#</a></h2>
+                <ul>
+                  <li><strong>Media Rendering:</strong> Powered by FFmpeg (LGPL v2.1 / v3)</li>
+                  <li><strong>Speech Recognition:</strong> Powered by Whisper (MIT License)</li>
+                  <li><strong>Fonts:</strong> Licensed under SIL OFL 1.1 and Apache 2.0</li>
+                </ul>
+                `,
+              },
+            ],
+          },
+          fa: {
+            pages: [
+              {
+                id: "intro",
+                group: "شروع کار",
+                title: "معرفی و شروع سریع",
+                lead: "Vocap یک استودیوی کامل و ۱۰۰٪ آفلاین ساخت، ویرایش و استایل‌دهی زیرنویس روی اندروید است؛ بدون نیاز به ارسال ویدیو به سرور.",
+                keywords: [
+                  "شروع",
+                  "آفلاین",
+                  "نصب",
+                  "اندروید",
+                  "سریع",
+                  "ویدیو",
+                  "تور",
+                ],
+                body: `
+                <div class="callout tip">
+                  <div class="callout-title">✓ ۱۰۰٪ آفلاین و خصوصی</div>
+                  <p>تمام مراحل استخراج صدا، تبدیل گفتار به متن و رندر نهایی ویدیو مستقیماً روی گوشی شما انجام می‌شود. هیچ ویدیو، صدا یا متنی به هیچ سروری ارسال نمی‌شود.</p>
+                </div>
+                <h2 id="quick-start">۴ قدم تا اولین ویدیوی زیرنویس‌دار <a class="anchor-link" href="#quick-start">#</a></h2>
+                <div class="steps">
+                  <div class="step-card"><div class="step-num">۱</div><div class="step-body"><h4>انتخاب و دانلود یک مدل Whisper</h4><p>در صفحه خانه روی کارت «مدل فعال» بزنید و یکی از مدل‌های آفلاین را دانلود و انتخاب کنید (مدل <strong>Whisper Base</strong> پیشنهاد می‌شود).</p></div></div>
+                  <div class="step-card"><div class="step-num">۲</div><div class="step-body"><h4>انتخاب ویدیو یا زیرنویس آماده</h4><p>ویدیوی خود را انتخاب کنید تا زیرنویس تولید شود؛ یا دکمه <strong>وارد کردن فایل زیرنویس</strong> را بزنید تا بدون پردازش صدا وارد ویرایشگر شوید.</p></div></div>
+                  <div class="step-card"><div class="step-num">۳</div><div class="step-body"><h4>ویرایش، استایل و تنظیم جایگاه</h4><p>متن را اصلاح کنید، قالب دلخواه یا فونت شخصی اضافه کنید و در صورت نیاز زیرنویس دوزبانه اضافه نمایید.</p></div></div>
+                  <div class="step-card"><div class="step-num">۴</div><div class="step-body"><h4>تست کوتاه ۱۰ ثانیه‌ای و خروجی نهایی</h4><p>با <strong>خروجی تست کوتاه (۱۰ ثانیه)</strong> کیفیت رندر را بررسی کنید و سپس خروجی کامل <code>MP4</code> یا فایل‌های <code>SRT / VTT / ASS</code> را ذخیره کنید.</p></div></div>
+                </div>
+                <h2 id="requirements">پیش‌نیازهای دستگاه <a class="anchor-link" href="#requirements">#</a></h2>
+                <ul>
+                  <li>سیستم‌عامل <strong>Android 8.0 (API 26)</strong> یا جدیدتر</li>
+                  <li>حداقل ۱۵۰ تا ۵۰۰ مگابایت فضای خالی</li>
+                  <li>اینترنت فقط برای دانلود یک‌باره‌ی مدل Whisper لازم است.</li>
+                </ul>
+                `,
+              },
+              {
+                id: "models",
+                group: "شروع کار",
+                title: "مدل‌های آفلاین Whisper و حافظه",
+                lead: "انتخاب مدل مناسب تعادل بین سرعت پردازش و دقت تشخیص کلمات را تعیین می‌کند.",
+                keywords: [
+                  "مدل",
+                  "whisper",
+                  "base",
+                  "small",
+                  "medium",
+                  "حافظه",
+                  "کش",
+                ],
+                body: `
+                <h2 id="model-list">مقایسه مدل‌های موجود <a class="anchor-link" href="#model-list">#</a></h2>
+                <div class="table-wrap">
+                  <table>
+                    <thead><tr><th>نام مدل</th><th>حجم تقریبی</th><th>کاربرد پیشنهادی</th></tr></thead>
+                    <tbody>
+                      <tr><td><strong>Whisper Base</strong></td><td><span class="ltr">142 MB</span></td><td>بهترین تعادل سرعت و دقت برای گوشی‌های میان‌رده</td></tr>
+                      <tr><td><strong>Whisper Small (q5_1)</strong></td><td><span class="ltr">181 MB</span></td><td>دقت بالاتر با حجم فشرده</td></tr>
+                      <tr><td><strong>Whisper Small</strong></td><td><span class="ltr">466 MB</span></td><td>دقت بسیار خوب برای فارسی و محتوای تخصصی</td></tr>
+                      <tr><td><strong>Whisper Medium</strong></td><td><span class="ltr">1.5 GB</span></td><td>بالاترین دقت؛ فقط برای دستگاه‌های قدرتمند</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+                <h2 id="storage-cache">مدیریت فضا و پاک‌سازی کش <a class="anchor-link" href="#storage-cache">#</a></h2>
+                <p>در تب <strong>تنظیمات ← حافظه و کش</strong>، دکمه <strong>پاک‌سازی کش موقت</strong> فایل‌های اضافی و خروجی‌های قدیمی را حذف می‌کند؛ بدون آسیب به پروژه‌ها یا مدل‌ها.</p>
+                `,
+              },
+              {
+                id: "editor",
+                group: "ویرایش و محتوا",
+                title: "ویرایشگر، تایم‌لاین و بازخورد لمسی",
+                lead: "کنترل دقیق زمان، تقسیم و ادغام سطرها، تایم‌لاین بزرگ‌نمایی‌پذیر و ۵۰ مرحله برگشت (Undo/Redo).",
+                keywords: [
+                  "تایم‌لاین",
+                  "ویرایش",
+                  "split",
+                  "merge",
+                  "undo",
+                  "زوم",
+                  "لرزش",
+                ],
+                body: `
+                <h2 id="timeline-controls">کار با تایم‌لاین <a class="anchor-link" href="#timeline-controls">#</a></h2>
+                <ul>
+                  <li><strong>بزرگ‌نمایی دو انگشتی:</strong> برای مشاهده دقیق‌تر مرز کلمات، تایم‌لاین را با دو انگشت باز یا جمع کنید.</li>
+                  <li><strong>تغییر زمان (Trim):</strong> دستگیره‌های چپ و راست هر بلوک زیرنویس را بکشید.</li>
+                  <li><strong>دقت صدم ثانیه:</strong> در تنظیمات می‌توانید نمایش صدم ثانیه را فعال کنید.</li>
+                </ul>
+                <h2 id="segment-actions">عملیات روی سطرهای زیرنویس <a class="anchor-link" href="#segment-actions">#</a></h2>
+                <div class="table-wrap">
+                  <table>
+                    <thead><tr><th>ابزار</th><th>کاربرد</th></tr></thead>
+                    <tbody>
+                      <tr><td><strong>تقسیم (Split)</strong></td><td>شکستن یک سطر طولانی به دو سطر مجزا در زمان فعلی</td></tr>
+                      <tr><td><strong>ادغام (Merge)</strong></td><td>یکی کردن سطر انتخاب‌شده با سطر بعدی</td></tr>
+                      <tr><td><strong>بازگشت (Undo / Redo)</strong></td><td>پشتیبانی از <strong>۵۰ مرحله</strong> تاریخچه تغییرات</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+                `,
+              },
+              {
+                id: "bilingual",
+                group: "ظاهر و دوزبانه",
+                title: "زیرنویس دوزبانه و ترجمه هوشمند",
+                lead: "نمایش هم‌زمان دو زبان با استایل مستقل، ورود SRT/VTT دوم، جابه‌جایی آنی زبان‌ها و گردش‌کار ترجمه با هوش مصنوعی.",
+                keywords: [
+                  "دوزبانه",
+                  "ترجمه",
+                  "هوش مصنوعی",
+                  "کلیپ‌بورد",
+                  "swap",
+                  "ثانویه",
+                ],
+                body: `
+                <h2 id="bilingual-tracks">مدیریت ترک اول و دوم <a class="anchor-link" href="#bilingual-tracks">#</a></h2>
+                <p>هر سطر یک فیلد مستقل برای <strong>متن ثانویه (ترجمه)</strong> دارد. در پنل استایل می‌توانید ظاهر، رنگ، باکس، هایلایت و فاصله هر دو زبان را به‌طور جداگانه کنترل کنید.</p>
+                <h2 id="ai-workflow">گردش‌کار ترجمه با AI (کلیپ‌بورد) <a class="anchor-link" href="#ai-workflow">#</a></h2>
+                <div class="steps">
+                  <div class="step-card"><div class="step-num">۱</div><div class="step-body"><h4>کپی پرامپت استاندارد همراه با کل متن‌ها</h4><p>از بخش ابزارهای هوشمند، پرامپت آماده را کپی کنید تا ساختار شماره‌گذاری سطرها حفظ شود.</p></div></div>
+                  <div class="step-card"><div class="step-num">۲</div><div class="step-body"><h4>ترجمه در سرویس AI دلخواه</h4><p>پرامپت را در ChatGPT، Gemini یا Claude ارسال و پاسخ را کپی کنید.</p></div></div>
+                  <div class="step-card"><div class="step-num">۳</div><div class="step-body"><h4>اعمال به متن ثانویه</h4><p>پاسخ کپی‌شده را در Vocap وارد کنید تا ترجمه‌ها خودکار در فیلد دوم هر سطر قرار بگیرند.</p></div></div>
+                </div>
+                `,
+              },
+              {
+                id: "export",
+                group: "خروجی و حقوقی",
+                title: "خروجی ویدیو، تست ۱۰ ثانیه‌ای و فایل‌ها",
+                lead: "ساخت MP4 با زیرنویس چسبیده در سه سطح کیفیت، خروجی تست سریع ۱۰ ثانیه‌ای، و دریافت فایل‌های SRT / VTT / ASS.",
+                keywords: [
+                  "خروجی",
+                  "mp4",
+                  "srt",
+                  "vtt",
+                  "کیفیت",
+                  "تست",
+                  "ذخیره",
+                ],
+                body: `
+                <h2 id="preview-clip">خروجی تست کوتاه (۱۰ ثانیه‌ای) <a class="anchor-link" href="#preview-clip">#</a></h2>
+                <p>پیش از رندر کامل، با زدن <strong>خروجی تست کوتاه (۱۰ ثانیه)</strong> از لحظه فعلی پخش، یک کلیپ کوتاه رندر می‌شود تا فونت، سایز، رنگ و جایگاه زیرنویس را بررسی کنید.</p>
+                <h2 id="mp4-export">تنظیمات کیفیت خروجی MP4 <a class="anchor-link" href="#mp4-export">#</a></h2>
+                <div class="table-wrap">
+                  <table>
+                    <thead><tr><th>سطح کیفیت</th><th>نرخ بیت ویدیو</th><th>کاربرد پیشنهادی</th></tr></thead>
+                    <tbody>
+                      <tr><td><strong>کیفیت بالا (High)</strong></td><td><span class="ltr">8000 kbps</span></td><td>انتشار حرفه‌ای در یوتیوب و آرشیو</td></tr>
+                      <tr><td><strong>متعادل (Balanced)</strong></td><td><span class="ltr">4500 kbps</span></td><td>بهترین تعادل برای اینستاگرام و تلگرام (پیش‌فرض)</td></tr>
+                      <tr><td><strong>کم‌حجم (Small)</strong></td><td><span class="ltr">2200 kbps</span></td><td>اشتراک‌گذاری سریع با حجم کم</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+                `,
+              },
+              {
+                id: "privacy-faq",
+                group: "خروجی و حقوقی",
+                title: "حریم خصوصی، مجوزها و سوالات متداول",
+                lead: "شفافیت کامل درباره پردازش آفلاین داده‌ها، مجوزهای متن‌باز و پاسخ به پرسش‌های پرتکرار.",
+                keywords: ["حریم خصوصی", "مجوز", "سوالات", "پشتیبانی", "ایمیل"],
+                body: `
+                <h2 id="privacy">سیاست حفظ حریم خصوصی <a class="anchor-link" href="#privacy">#</a></h2>
+                <p>Vocap به‌صورت <strong>۱۰۰٪ آفلاین</strong> کار می‌کند. متن کامل سیاست حریم خصوصی در لینک زیر قابل مطالعه است:</p>
+                <p><a href="https://bitwizarder.github.io/vocap/vocap-privacy/" target="_blank" rel="noopener">مشاهده سیاست حفظ حریم خصوصی Vocap ↗</a></p>
+                <h2 id="licenses">مجوزهای متن‌باز مورد استفاده <a class="anchor-link" href="#licenses">#</a></h2>
+                <ul>
+                  <li><strong>رندر رسانه:</strong> با پشتیبانی از FFmpeg تحت مجوز <code>LGPL v2.1 / v3</code></li>
+                  <li><strong>تشخیص گفتار:</strong> با پشتیبانی از Whisper تحت مجوز <code>MIT</code></li>
+                  <li><strong>فونت‌ها:</strong> دارای مجوز <code>SIL OFL 1.1</code> و <code>Apache 2.0</code></li>
+                </ul>
+                `,
+              },
+            ],
+          },
+        },
+      };
+
+      // State Management
+      const state = {
+        version: DEFAULT_VERSION,
+        pageId: "intro",
+        lang: localStorage.getItem("vocap_docs_lang") || "fa",
+        theme:
+          localStorage.getItem("vocap_docs_theme") ||
+          (window.matchMedia("(prefers-color-scheme: light)").matches
+            ? "light"
+            : "dark"),
+      };
+
+      const el = {
+        versionSelect: document.getElementById("versionSelect"),
+        sidebar: document.getElementById("sidebar"),
+        docRoot: document.getElementById("docRoot"),
+        tocList: document.getElementById("tocList"),
+        tocTitle: document.getElementById("tocTitle"),
+        themeBtn: document.getElementById("themeBtn"),
+        menuBtn: document.getElementById("menuBtn"),
+        drawerBackdrop: document.getElementById("drawerBackdrop"),
+        searchBtn: document.getElementById("searchBtn"),
+        searchLabel: document.getElementById("searchLabel"),
+        searchModal: document.getElementById("searchModal"),
+        searchInput: document.getElementById("searchInput"),
+        searchResults: document.getElementById("searchResults"),
+        searchClose: document.getElementById("searchClose"),
+        brandHome: document.getElementById("brandHome"),
+        brandSub: document.getElementById("brandSub"),
+        privacyLink: document.getElementById("privacyLink"),
+        footerText: document.getElementById("footerText"),
+        btnEn: document.getElementById("btn-en"),
+        btnFa: document.getElementById("btn-fa"),
+      };
+
+      // i18n Static Strings
+      const i18n = {
+        en: {
+          searchLabel: "Search docs...",
+          searchPlaceholder: "Type to search...",
+          privacyLink: "Privacy Policy",
+          footerText: "Vocap — Smart, fully offline subtitles for Android",
+          tocTitle: "On this page",
+          brandSub: "Documentation",
+          prev: "← Previous",
+          next: "Next →",
+          noResults: "No results found. Try a different query.",
+          versionLabel: "Version",
+        },
+        fa: {
+          searchLabel: "جست‌وجو در راهنما…",
+          searchPlaceholder: "عبارت مورد نظر را تایپ کنید…",
+          privacyLink: "حریم خصوصی",
+          footerText:
+            "Vocap — ساخت زیرنویس هوشمند و کاملاً آفلاین برای اندروید",
+          tocTitle: "در این صفحه",
+          brandSub: "مرجع رسمی آموزش",
+          prev: "→ صفحه قبلی",
+          next: "صفحه بعدی ←",
+          noResults: "موردی پیدا نشد. عبارت دیگری را امتحان کنید.",
+          versionLabel: "انتخاب نسخه",
+        },
+      };
+
+      // Core Functions
+      function setLang(lang) {
+        state.lang = lang;
+        localStorage.setItem("vocap_docs_lang", lang);
+        document.documentElement.lang = lang;
+        document.documentElement.dir = lang === "fa" ? "rtl" : "ltr";
+
+        el.btnEn.classList.toggle("active", lang === "en");
+        el.btnFa.classList.toggle("active", lang === "fa");
+
+        // Update static text
+        el.searchLabel.textContent = i18n[lang].searchLabel;
+        el.searchInput.placeholder = i18n[lang].searchPlaceholder;
+        el.privacyLink.textContent = i18n[lang].privacyLink;
+        el.footerText.textContent = i18n[lang].footerText;
+        el.tocTitle.textContent = i18n[lang].tocTitle;
+        el.brandSub.textContent = i18n[lang].brandSub;
+
+        renderPage();
+      }
+
+      function applyTheme(theme) {
+        state.theme = theme;
+        document.documentElement.setAttribute("data-theme", theme);
+        localStorage.setItem("vocap_docs_theme", theme);
+        el.themeBtn.textContent = theme === "dark" ? "☀️" : "🌙";
+      }
+
+      function populateVersions() {
+        el.versionSelect.innerHTML = "";
+        for (const [key, ver] of Object.entries(DOC_VERSIONS)) {
+          const opt = document.createElement("option");
+          opt.value = key;
+          opt.textContent = ver.label;
+          if (key === state.version) opt.selected = true;
+          el.versionSelect.appendChild(opt);
+        }
+      }
+
+      function renderSidebar() {
+        const langData = DOC_VERSIONS[state.version][state.lang];
+        const groups = new Map();
+        for (const page of langData.pages) {
+          if (!groups.has(page.group)) groups.set(page.group, []);
+          groups.get(page.group).push(page);
+        }
+
+        el.sidebar.innerHTML = "";
+        for (const [groupName, pages] of groups.entries()) {
+          const wrap = document.createElement("div");
+          wrap.className = "nav-group";
+          const heading = document.createElement("div");
+          heading.className = "nav-group-title";
+          heading.textContent = groupName;
+          wrap.appendChild(heading);
+
+          for (const pg of pages) {
+            const btn = document.createElement("button");
+            btn.className =
+              "nav-item" + (pg.id === state.pageId ? " active" : "");
+            btn.textContent = pg.title;
+            btn.onclick = () => navigateTo(pg.id);
+            wrap.appendChild(btn);
+          }
+          el.sidebar.appendChild(wrap);
+        }
+      }
+
+      function renderTOC() {
+        const headings = Array.from(
+          el.docRoot.querySelectorAll(".prose h2[id], .prose h3[id]"),
+        );
+        el.tocList.innerHTML = "";
+        if (headings.length === 0) return;
+
+        for (const h of headings) {
+          const li = document.createElement("li");
+          const a = document.createElement("a");
+          a.className = "toc-link";
+          a.href = "#" + h.id;
+          a.textContent = h.textContent.replace(/#$/, "").trim();
+          a.style.paddingInlineStart = h.tagName === "H3" ? "22px" : "12px";
+          a.onclick = (e) => {
+            e.preventDefault();
+            h.scrollIntoView({ behavior: "smooth" });
+            updateHash(h.id);
+          };
+          li.appendChild(a);
+          el.tocList.appendChild(li);
+        }
+      }
+
+      function renderPage() {
+        const verData =
+          DOC_VERSIONS[state.version] || DOC_VERSIONS[DEFAULT_VERSION];
+        const langData = verData[state.lang];
+        let idx = langData.pages.findIndex((p) => p.id === state.pageId);
+
+        if (idx === -1) {
+          idx = 0;
+          state.pageId = langData.pages[0].id;
+        }
+
+        const page = langData.pages[idx];
+        const prev = idx > 0 ? langData.pages[idx - 1] : null;
+        const next =
+          idx + 1 < langData.pages.length ? langData.pages[idx + 1] : null;
+        const trans = i18n[state.lang];
+
+        el.docRoot.innerHTML = `
+          <div class="doc-meta">
+            <span class="badge">${verData.label}</span>
+            <span>${page.group}</span>
+            <span>•</span>
+            <span>${verData.releaseDate[state.lang]}</span>
+          </div>
+          <h1 class="doc-title">${page.title}</h1>
+          <p class="doc-lead">${page.lead}</p>
+          <article class="prose">${page.body}</article>
+          <nav class="pager" aria-label="Navigation">
+            ${prev ? `<button class="pager-btn prev" data-nav="${prev.id}"><span class="pager-dir">${trans.prev}</span><span class="pager-title">${prev.title}</span></button>` : "<div></div>"}
+            ${next ? `<button class="pager-btn next" data-nav="${next.id}"><span class="pager-dir">${trans.next}</span><span class="pager-title">${next.title}</span></button>` : "<div></div>"}
+          </nav>
+        `;
+
+        el.docRoot.querySelectorAll("[data-nav]").forEach((btn) => {
+          btn.addEventListener("click", () =>
+            navigateTo(btn.getAttribute("data-nav")),
+          );
+        });
+
+        el.docRoot.querySelectorAll(".anchor-link").forEach((a) => {
+          a.addEventListener("click", (e) => {
+            e.preventDefault();
+            const targetId = a.getAttribute("href").slice(1);
+            const targetEl = document.getElementById(targetId);
+            if (targetEl) targetEl.scrollIntoView({ behavior: "smooth" });
+            updateHash(targetId);
+          });
+        });
+
+        document.title = `${page.title} — Vocap Docs`;
+        renderSidebar();
+        renderTOC();
+        window.scrollTo({ top: 0, behavior: "instant" });
+      }
+
+      function navigateTo(pageId) {
+        state.pageId = pageId;
+        closeDrawer();
+        renderPage();
+        updateHash();
+      }
+
+      function parseHash() {
+        const raw = (location.hash || "").replace(/^#/, "");
+        if (!raw) return;
+        const [queryPart, anchorPart] = raw.split("#");
+        if (queryPart.includes("=")) {
+          const params = new URLSearchParams(queryPart);
+          const v = params.get("v");
+          const p = params.get("p");
+          if (v && DOC_VERSIONS[v]) state.version = v;
+          if (p) state.pageId = p;
+        } else if (
+          DOC_VERSIONS[state.version][state.lang].pages.some(
+            (pg) => pg.id === raw,
+          )
+        ) {
+          state.pageId = raw;
+        }
+        return anchorPart || null;
+      }
+
+      function updateHash(anchor) {
+        const base = `#v=${encodeURIComponent(state.version)}&p=${encodeURIComponent(state.pageId)}`;
+        const target = anchor ? `${base}#${encodeURIComponent(anchor)}` : base;
+        if (location.hash !== target) {
+          history.replaceState(null, "", target);
+        }
+      }
+
+      function openDrawer() {
+        el.sidebar.classList.add("open");
+        el.drawerBackdrop.classList.add("open");
+      }
+      function closeDrawer() {
+        el.sidebar.classList.remove("open");
+        el.drawerBackdrop.classList.remove("open");
+      }
+
+      function stripHtml(html) {
+        const tmp = document.createElement("div");
+        tmp.innerHTML = html;
+        return (tmp.textContent || tmp.innerText || "")
+          .replace(/\s+/g, " ")
+          .trim();
+      }
+
+      function renderSearchResults(query) {
+        const langData = DOC_VERSIONS[state.version][state.lang];
+        const q = (query || "").trim().toLowerCase();
+        const hits = [];
+
+        for (const page of langData.pages) {
+          const plain = stripHtml(page.body);
+          const hay =
+            `${page.title} ${page.lead} ${(page.keywords || []).join(" ")} ${plain}`.toLowerCase();
+          if (!q || hay.includes(q)) {
+            let snippet = page.lead;
+            if (q) {
+              const pos = plain.toLowerCase().indexOf(q);
+              if (pos !== -1) {
+                const start = Math.max(0, pos - 40);
+                const end = Math.min(plain.length, pos + 90);
+                snippet =
+                  (start > 0 ? "…" : "") +
+                  plain.slice(start, end) +
+                  (end < plain.length ? "…" : "");
+              }
+            }
+            hits.push({ page, snippet });
+          }
+        }
+
+        el.searchResults.innerHTML = "";
+        if (!hits.length) {
+          el.searchResults.innerHTML = `<div class="search-empty">${i18n[state.lang].noResults}</div>`;
+          return;
+        }
+        for (const hit of hits) {
+          const btn = document.createElement("button");
+          btn.className = "search-hit";
+          btn.innerHTML = `
+            <div class="search-hit-cat">${hit.page.group}</div>
+            <div class="search-hit-title">${hit.page.title}</div>
+            <div class="search-hit-snippet">${hit.snippet}</div>
+          `;
+          btn.onclick = () => {
+            closeSearch();
+            navigateTo(hit.page.id);
+          };
+          el.searchResults.appendChild(btn);
+        }
+      }
+
+      function openSearch() {
+        el.searchModal.classList.add("open");
+        el.searchInput.value = "";
+        renderSearchResults("");
+        setTimeout(() => el.searchInput.focus(), 30);
+      }
+      function closeSearch() {
+        el.searchModal.classList.remove("open");
+      }
+
+      // Init
+      applyTheme(state.theme);
+      setLang(state.lang);
+      populateVersions();
+      const initialAnchor = parseHash();
+      renderPage();
+      if (initialAnchor) {
+        setTimeout(() => {
+          const target = document.getElementById(initialAnchor);
+          if (target) target.scrollIntoView();
+        }, 100);
+      }
+
+      // Event Listeners
+      el.versionSelect.addEventListener("change", (e) => {
+        state.version = e.target.value;
+        populateVersions();
+        renderPage();
+        updateHash();
+      });
+      el.themeBtn.addEventListener("click", () =>
+        applyTheme(state.theme === "dark" ? "light" : "dark"),
+      );
+      el.menuBtn.addEventListener("click", openDrawer);
+      el.drawerBackdrop.addEventListener("click", closeDrawer);
+      el.searchBtn.addEventListener("click", openSearch);
+      el.searchClose.addEventListener("click", closeSearch);
+      el.searchModal.addEventListener("click", (e) => {
+        if (e.target === el.searchModal) closeSearch();
+      });
+      el.searchInput.addEventListener("input", (e) =>
+        renderSearchResults(e.target.value),
+      );
+      el.brandHome.addEventListener("click", (e) => {
+        e.preventDefault();
+        navigateTo("intro");
+      });
+      window.addEventListener("hashchange", () => {
+        const a = parseHash();
+        populateVersions();
+        renderPage();
+      });
+      document.addEventListener("keydown", (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
+          e.preventDefault();
+          openSearch();
+        } else if (e.key === "Escape") {
+          closeSearch();
+          closeDrawer();
+        }
+      });
+    </script>
+  </body>
+</html>
