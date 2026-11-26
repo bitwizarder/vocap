@@ -1,358 +1,505 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="fa" dir="rtl" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b0f19" />
   
   <!-- SEO & Theme Tags -->
   <meta name="description" content="Vocap Privacy Policy - 100% On-Device Processing. Read our policy in English and Persian." />
   
-  <title>Vocap — Privacy Policy / حریم خصوصی</title>
+  <title>Privacy Policy — Vocap</title>
+  <meta name="robots" content="index,follow" />
   
-  <!-- Vazirmatn Font from Google Fonts -->
+  <!-- Vazirmatn Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
-    /* Default: Dark Theme */
     :root {
-      color-scheme: light dark;
-      --bg: #0b0f19;
-      --card: #151c2c;
-      --elevated: #1e293b;
+      color-scheme: dark;
+      --bgBase: #0b0f19;
+      --bgCard: #151c2c;
+      --bgElevated: #1e293b;
       --text: #f8fafc;
-      --muted: #94a3b8;
+      --textMuted: #cbd5e1;
+      --textSubtle: #94a3b8;
       --primary: #6366f1;
-      --border: #263244;
-      --success: #10b981;
+      --primaryDim: rgba(99, 102, 241, .14);
+      --border: rgba(148, 163, 184, .16);
+      --borderStrong: rgba(148, 163, 184, .28);
+      --header-bg: rgba(11, 15, 25, .86);
+      --shadow: 0 18px 45px rgba(0, 0, 0, .35);
+      --radius: 14px;
+      --font-sans: "Vazirmatn", Tahoma, system-ui, sans-serif;
     }
-    
-    /* Light Theme Override */
-    [data-theme="light"] {
-      --bg: #f8fafc;
-      --card: #ffffff;
-      --elevated: #f1f5f9;
+    html[lang="en"] { --font-sans: "Inter", system-ui, -apple-system, sans-serif; }
+    html[data-theme="light"] {
+      color-scheme: light;
+      --bgBase: #f8fafc;
+      --bgCard: #ffffff;
+      --bgElevated: #f1f5f9;
       --text: #0f172a;
-      --muted: #475569;
+      --textMuted: #334155;
+      --textSubtle: #64748b;
       --primary: #4f46e5;
+      --primaryDim: rgba(79, 70, 229, .10);
       --border: #e2e8f0;
-      --success: #059669;
+      --borderStrong: #cbd5e1;
+      --header-bg: rgba(248, 250, 252, .88);
+      --shadow: 0 18px 45px rgba(15, 23, 42, .10);
     }
-
     * { box-sizing: border-box; }
-    
+    html { min-width: 0; max-width: 100%; overflow-x: clip; scroll-behavior: smooth; }
     body {
+      min-width: 0;
+      max-width: 100%;
       margin: 0;
-      padding: 24px 16px 48px;
-      font-family: 'Vazirmatn', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Tahoma, sans-serif;
-      background: var(--bg);
+      overflow-x: clip;
+      font-family: var(--font-sans);
+      background: var(--bgBase);
       color: var(--text);
-      line-height: 1.75;
-      transition: background-color 0.3s ease, color 0.3s ease;
+      line-height: 1.85;
+      font-size: 15.5px;
+      -webkit-font-smoothing: antialiased;
+      transition: background-color .25s ease, color .25s ease;
     }
-    
-    .container {
-      max-width: 780px;
-      margin: 0 auto;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 28px 24px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-      transition: background-color 0.3s ease, border-color 0.3s ease;
-    }
-    
+    button, a { font: inherit; }
+    a { color: var(--primary); text-decoration: none; font-weight: 600; overflow-wrap: anywhere; transition: color .18s ease, opacity .18s ease; }
+    a:hover { text-decoration: underline; }
+    button:focus-visible, a:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
+
+    /* Header shared with the documentation page */
     .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      min-height: 64px;
+      background: var(--header-bg);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    .header-content {
+      width: min(100%, 1440px);
+      min-height: 64px;
+      margin: 0 auto;
+      padding: 0 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 12px;
-      padding-bottom: 18px;
-      margin-bottom: 22px;
-      border-bottom: 1px solid var(--border);
+      gap: 16px;
     }
-    
+    .brand-group, .brand, .controls { display: flex; align-items: center; min-width: 0; }
+    .brand-group { gap: 12px; }
     .brand {
-      font-size: 1.35rem;
+      gap: 10px;
+      color: var(--text);
+      font-size: 1.12rem;
       font-weight: 800;
-      margin: 0;
+      letter-spacing: -.35px;
+      white-space: nowrap;
     }
-
-    /* Container for Buttons */
-    .controls {
-      display: flex;
-      align-items: center;
-      gap: 8px;
+    .brand:hover { text-decoration: none; }
+    .brand-logo {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      border-radius: 10px;
+      color: white;
+      background: linear-gradient(135deg, #6366f1 0%, #4338ca 100%);
+      font-size: .95rem;
+      font-weight: 800;
+      box-shadow: 0 6px 18px rgba(99, 102, 241, .28);
     }
-    
+    .brand-sub {
+      padding-inline-start: 11px;
+      border-inline-start: 1px solid var(--border);
+      color: var(--textSubtle);
+      font-size: .78rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .controls { gap: 10px; }
+    .header-link {
+      padding: 6px 10px;
+      border-radius: 8px;
+      color: var(--textMuted);
+      font-size: .85rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .header-link:hover { background: var(--bgElevated); text-decoration: none; }
     .lang-switch {
       display: flex;
-      gap: 8px;
-    }
-    
-    .lang-btn, .icon-btn {
-      border: 1px solid var(--border);
-      background: var(--elevated);
-      color: var(--text);
-      padding: 7px 14px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: 700;
-      font-size: 0.9rem;
-      font-family: inherit;
-      transition: all 0.2s ease;
-      display: flex;
       align-items: center;
-      justify-content: center;
+      gap: 1px;
+      padding: 2px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background: var(--bgElevated);
     }
-    
-    .icon-btn {
-      padding: 7px 10px;
-      font-size: 1.1rem;
-      line-height: 1;
-    }
-    
-    .lang-btn:hover, .icon-btn:hover {
-      border-color: var(--primary);
-    }
-    
-    .lang-btn.active {
-      background: var(--primary);
-      border-color: var(--primary);
-      color: #ffffff;
-    }
-    
-    .badge {
-      display: inline-block;
-      background: rgba(16, 185, 129, 0.14);
-      color: var(--success);
-      border: 1px solid rgba(16, 185, 129, 0.35);
-      border-radius: 8px;
+    .lang-btn {
+      border: 0;
+      border-radius: 7px;
       padding: 4px 10px;
-      font-size: 0.85rem;
-      font-weight: 700;
-      margin-bottom: 14px;
+      background: transparent;
+      color: var(--textSubtle);
+      cursor: pointer;
+      font-family: inherit;
+      font-size: .78rem;
+      font-weight: 800;
+      transition: background .18s ease, color .18s ease;
     }
-    
-    h2 {
-      font-size: 1.12rem;
-      margin: 22px 0 8px;
+    .lang-btn.active { background: var(--bgCard); color: var(--text); box-shadow: 0 1px 4px rgba(0, 0, 0, .10); }
+    .icon-btn {
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background: var(--bgElevated);
       color: var(--text);
+      cursor: pointer;
+      transition: border-color .18s ease, background .18s ease;
     }
-    
-    p, li {
-      color: var(--muted);
-      font-size: 0.97rem;
-      margin: 0 0 10px;
+    .icon-btn:hover { border-color: var(--primary); }
+    .icon-btn svg { width: 18px; height: 18px; fill: currentColor; }
+
+    /* Policy content */
+    .container {
+      width: min(100%, 928px);
+      margin: 38px auto 72px;
+      padding: 0 24px;
+      animation: fadeIn .35s ease-out;
     }
-    
-    ul {
-      padding-inline-start: 20px;
-      margin: 0 0 12px;
+    .card {
+      min-width: 0;
+      padding: clamp(24px, 5vw, 44px);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      background: var(--bgCard);
+      box-shadow: var(--shadow);
     }
-    
-    a {
-      color: var(--primary);
-      text-decoration: none;
-      font-weight: 500;
-    }
-    
-    a:hover { text-decoration: underline; }
-    
-    .meta {
-      font-size: 0.88rem;
-      color: var(--muted);
-      margin-bottom: 18px;
-    }
-    
-    .section-lang { 
-      display: none; 
-      animation: fadeIn 0.4s ease;
-    }
-    
+    .section-lang { display: none; min-width: 0; }
     .section-lang.active { display: block; }
-    
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(5px); }
-      to { opacity: 1; transform: translateY(0); }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      max-width: 100%;
+      margin-bottom: 14px;
+      padding: 5px 12px;
+      border: 1px solid var(--primaryDim);
+      border-radius: 999px;
+      background: var(--primaryDim);
+      color: var(--primary);
+      font-size: .8rem;
+      font-weight: 800;
     }
-    
-    footer {
-      margin-top: 28px;
-      padding-top: 16px;
+    .page-title {
+      margin: 0 0 12px;
+      color: var(--text);
+      font-size: clamp(1.7rem, 4vw, 2.2rem);
+      font-weight: 800;
+      line-height: 1.4;
+      letter-spacing: -.35px;
+    }
+    .meta {
+      margin: 0 0 28px;
+      padding-bottom: 22px;
+      border-bottom: 1px solid var(--border);
+      color: var(--textSubtle);
+      font-size: .86rem;
+      text-align: start;
+      line-height: 1.9;
+    }
+    h2 {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin: 32px 0 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+      font-size: 1.18rem;
+      font-weight: 800;
+      line-height: 1.55;
+    }
+    p, li { color: var(--textMuted); font-size: .98rem; }
+    p:not(.meta) {
+      margin: 0 0 15px;
+      text-align: justify;
+      text-justify: inter-word;
+      text-align-last: start;
+      overflow-wrap: anywhere;
+    }
+    ul { margin: 0 0 22px; padding-inline-start: 24px; }
+    li { margin-bottom: 9px; text-align: justify; text-justify: inter-word; overflow-wrap: anywhere; }
+    strong { color: var(--text); font-weight: 800; }
+    .ltr {
+      direction: ltr;
+      unicode-bidi: isolate;
+      display: inline-block;
+      max-width: 100%;
+      overflow-wrap: anywhere;
+    }
+    .doc-footer {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px 18px;
+      margin-top: 38px;
+      padding-top: 22px;
       border-top: 1px solid var(--border);
-      font-size: 0.86rem;
-      color: var(--muted);
-      text-align: center;
+      color: var(--textSubtle);
+      font-size: .86rem;
+    }
+    .doc-footer a { font-weight: 600; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    @media (max-width: 680px) {
+      .header-content { padding-inline: 14px; gap: 8px; }
+      .controls { gap: 7px; }
+      .brand-sub { display: none; }
+      .container { margin: 24px auto 48px; padding-inline: 14px; }
+      .card { border-radius: 17px; }
+      .doc-footer { justify-content: center; text-align: center; }
+    }
+    @media (max-width: 420px) {
+      .header-content { padding: 9px 10px; flex-wrap: wrap; row-gap: 8px; }
+      .brand-group { width: 100%; }
+      .controls { width: 100%; justify-content: flex-end; }
+      .brand { gap: 7px; font-size: 1rem; }
+      .brand-logo { width: 30px; height: 30px; border-radius: 9px; }
+      .controls { gap: 5px; }
+      .header-link { padding: 5px 6px; font-size: .76rem; }
+      .lang-btn { padding: 4px 7px; font-size: .73rem; }
+      .icon-btn { width: 34px; height: 34px; }
+      .container { padding-inline: 10px; margin-top: 18px; }
+      .card { padding: 22px 18px; }
+      .page-title { font-size: 1.55rem; }
+      h2 { font-size: 1.08rem; margin-top: 27px; }
+      p, li { font-size: .94rem; }
+    }
+    @media (max-width: 350px) {
+      .brand { font-size: .92rem; }
+      .brand-logo { width: 28px; height: 28px; }
+      .header-link { font-size: .7rem; padding-inline: 4px; }
+      .icon-btn { width: 32px; height: 32px; }
+      .lang-btn { padding-inline: 6px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
     }
   </style>
 </head>
 <body>
-  <main class="container">
-    <div class="topbar">
-      <h1 class="brand">Vocap — Privacy Policy</h1>
-      
-      <div class="controls">
-        <div class="lang-switch" role="group" aria-label="Language switcher">
-          <button type="button" id="btn-en" class="lang-btn active" onclick="setLang('en')">English</button>
-          <button type="button" id="btn-fa" class="lang-btn" onclick="setLang('fa')">فارسی</button>
-        </div>
-        <button type="button" id="theme-toggle" class="icon-btn" aria-label="Toggle theme" title="Toggle Dark/Light Mode">🌙</button>
+
+  <!-- Shared Vocap header -->
+  <header class="topbar">
+    <div class="header-content">
+      <div class="brand-group">
+        <a href="https://bitwizarder.github.io/vocap/" class="brand" aria-label="Vocap documentation home">
+          <span class="brand-logo" aria-hidden="true">V</span>
+          <span>Vocap</span>
+        </a>
+        <span class="brand-sub" id="brand-sub">حریم خصوصی</span>
       </div>
+
+      <nav class="controls" aria-label="Page controls">
+        <a href="https://bitwizarder.github.io/vocap/" class="header-link" id="docs-link">مستندات</a>
+        <div class="lang-switch" role="group" aria-label="Language switcher">
+          <button type="button" id="btn-en" class="lang-btn" aria-pressed="false" onclick="setLang('en')">EN</button>
+          <button type="button" id="btn-fa" class="lang-btn active" aria-pressed="true" onclick="setLang('fa')">FA</button>
+        </div>
+        <button type="button" id="theme-toggle" class="icon-btn" aria-label="تغییر پوسته" title="تغییر پوسته">
+          <svg id="icon-moon" viewBox="0 0 24 24" aria-hidden="true" style="display: none;">
+            <path d="M20.5 15.4A8.7 8.7 0 0 1 8.6 3.5 9.5 9.5 0 1 0 20.5 15.4Z"/>
+          </svg>
+          <svg id="icon-sun" viewBox="0 0 24 24" aria-hidden="true" style="display: block;">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </nav>
     </div>
+  </header>
 
-    <!-- English Version -->
-    <section id="lang-en" class="section-lang active" lang="en" dir="ltr">
-      <span class="badge">100% On-Device Processing</span>
-      <p class="meta"><strong>Effective Date:</strong> November 2026 &middot; <strong>Developer:</strong> Bitwizarder</p>
+  <main class="container">
+    <div class="card">
+      <!-- English Version -->
+      <section id="lang-en" class="section-lang" lang="en" dir="ltr">
+        <span class="badge">100% On-Device Processing</span>
+        <h1 class="page-title">Privacy Policy</h1>
+        <p class="meta"><strong>Effective Date:</strong> November 2026 &nbsp;&middot;&nbsp; <strong>Developer:</strong> Bitwizarder</p>
 
-      <p>
-        Vocap is designed with privacy as a core principle. Your videos, extracted audio, subtitles, custom fonts, and edited projects are processed and stored locally on your device and are never uploaded to our servers.
-      </p>
+        <p>
+          Vocap is designed with privacy as a core principle. Your videos, extracted audio, subtitles, custom fonts, and edited projects are processed and stored locally on your device and are never uploaded to our servers.
+        </p>
 
-      <h2>1. Data We Collect</h2>
-      <p>
-        We do <strong>not</strong> require user registration, accounts, or sign-in, and we do not collect, sell, or share personal information, usage telemetry, analytics profiles, or media content.
-      </p>
+        <h2>1. Data We Collect</h2>
+        <p>
+          We do <strong>not</strong> require user registration, accounts, or sign-in, and we do not collect, sell, or share personal information, usage telemetry, analytics profiles, or media content.
+        </p>
 
-      <h2>2. On-Device Media &amp; Local Storage</h2>
-      <ul>
-        <li>Video files, imported subtitles (SRT, VTT, ASS), and custom font files remain inside your device storage and Vocap's private app directory.</li>
-        <li>Transcription (via Whisper models) and subtitle rendering/burn-in (via FFmpeg) run entirely offline on your device.</li>
-        <li>App preferences (theme, language, saved color swatches, presets, and onboarding status) are stored locally using AsyncStorage.</li>
-      </ul>
+        <h2>2. On-Device Media &amp; Local Storage</h2>
+        <ul>
+          <li>Video files, imported subtitles (SRT, VTT, ASS), and custom font files remain inside your device storage and Vocap's private app directory.</li>
+          <li>Transcription (via Whisper models) and subtitle rendering/burn-in (via FFmpeg) run entirely offline on your device.</li>
+          <li>App preferences (theme, language, saved color swatches, presets, and onboarding status) are stored locally using AsyncStorage.</li>
+        </ul>
 
-      <h2>3. Network Requests</h2>
-      <p>
-        Vocap works offline after setup. An internet connection is only used when you explicitly choose to:
-      </p>
-      <ul>
-        <li>Download open-source Whisper speech recognition models inside the Model Manager.</li>
-        <li>Open external links you initiate, such as this Privacy Policy or contacting support via your email app.</li>
-      </ul>
-      <p>
-        If you use the optional clipboard AI prompt helper, you manually copy and paste text into an external AI service of your choice under that service's own privacy terms; Vocap itself makes no automated AI API requests.
-      </p>
+        <h2>3. Network Requests</h2>
+        <p>
+          Vocap works offline after setup. An internet connection is only used when you explicitly choose to:
+        </p>
+        <ul>
+          <li>Download open-source Whisper speech recognition models inside the Model Manager.</li>
+          <li>Open external links you initiate, such as this Privacy Policy or contacting support via your email app.</li>
+        </ul>
+        <p>
+          If you use the optional clipboard AI prompt helper, you manually copy and paste text into an external AI service of your choice under that service's own privacy terms; Vocap itself makes no automated AI API requests.
+        </p>
 
-      <h2>4. Permissions</h2>
-      <ul>
-        <li><strong>File Picker / Storage Access:</strong> Used strictly to let you import videos, subtitles, or fonts and export finished files where you choose.</li>
-        <li><strong>Notifications:</strong> Used to display progress or completion alerts for background model downloads or video rendering tasks.</li>
-      </ul>
+        <h2>4. Permissions</h2>
+        <ul>
+          <li><strong>File Picker / Storage Access:</strong> Used strictly to let you import videos, subtitles, or fonts and export finished files where you choose.</li>
+          <li><strong>Notifications:</strong> Used to display progress or completion alerts for background model downloads or video rendering tasks.</li>
+        </ul>
 
-      <h2>5. Children's Privacy</h2>
-      <p>
-        Vocap does not knowingly collect any personal information from children or any other users.
-      </p>
+        <h2>5. Children's Privacy</h2>
+        <p>
+          Vocap does not knowingly collect any personal information from children or any other users.
+        </p>
 
-      <h2>6. Changes to This Policy</h2>
-      <p>
-        If future updates introduce new features (such as optional cloud services or advertising SDKs), this Privacy Policy will be updated prior to those changes taking effect.
-      </p>
+        <h2>6. Changes to This Policy</h2>
+        <p>
+          If future updates introduce new features (such as optional cloud services or advertising SDKs), this Privacy Policy will be updated prior to those changes taking effect.
+        </p>
 
-      <h2>7. Contact</h2>
-      <p>
-        If you have questions about this Privacy Policy, please contact us at:
-        <a href="mailto:vocap.services@gmail.com">vocap.services@gmail.com</a>
-      </p>
-    </section>
+        <h2>7. Contact</h2>
+        <p>
+          If you have questions about this Privacy Policy, please contact us at:
+          <a href="mailto:vocap.services@gmail.com">vocap.services@gmail.com</a>
+        </p>
+      </section>
 
-    <!-- Persian Version -->
-    <section id="lang-fa" class="section-lang" lang="fa" dir="rtl">
-      <span class="badge">پردازش ۱۰۰٪ آفلاین روی دستگاه</span>
-      <p class="meta"><strong>تاریخ اجرا:</strong> نوامبر ۲۰۲۶ &middot; <strong>توسعه‌دهنده:</strong> Bitwizarder</p>
+      <!-- Persian Version -->
+      <section id="lang-fa" class="section-lang active" lang="fa" dir="rtl">
+        <span class="badge">پردازش ۱۰۰٪ آفلاین روی دستگاه</span>
+        <h1 class="page-title">سیاست حفظ حریم خصوصی</h1>
+        <p class="meta"><strong>تاریخ اجرا:</strong> نوامبر ۲۰۲۶ &nbsp;&middot;&nbsp; <strong>توسعه‌دهنده:</strong> Bitwizarder</p>
 
-      <p>
-        اپلیکیشن Vocap با محوریت حفظ حریم خصوصی طراحی شده است. ویدیوها، صدای استخراج‌شده، زیرنویس‌ها، فونت‌های دلخواه و پروژه‌های شما همگی روی دستگاه خودتان پردازش و ذخیره می‌شوند و هرگز به سرورهای ما ارسال نمی‌شوند.
-      </p>
+        <p>
+          اپلیکیشن Vocap با محوریت حفظ حریم خصوصی طراحی شده است. ویدیوها، صدای استخراج‌شده، زیرنویس‌ها، فونت‌های دلخواه و پروژه‌های شما همگی روی دستگاه خودتان پردازش و ذخیره می‌شوند و هرگز به سرورهای ما ارسال نمی‌شوند.
+        </p>
 
-      <h2>۱. داده‌هایی که جمع‌آوری می‌کنیم</h2>
-      <p>
-        Vocap نیازی به ساخت حساب کاربری یا ورود ندارد و هیچ‌گونه اطلاعات شخصی، آمار رفتاری (Telemetry)، پروفایل کاربری یا فایل رسانه‌ای را جمع‌آوری، ذخیره یا به اشتراک نمی‌گذارد.
-      </p>
+        <h2>۱. داده‌هایی که جمع‌آوری می‌کنیم</h2>
+        <p>
+          Vocap نیازی به ساخت حساب کاربری یا ورود ندارد و هیچ‌گونه اطلاعات شخصی، آمار رفتاری (Telemetry)، پروفایل کاربری یا فایل رسانه‌ای را جمع‌آوری، ذخیره یا به اشتراک نمی‌گذارد.
+        </p>
 
-      <h2>۲. پردازش و ذخیره‌سازی محلی</h2>
-      <ul>
-        <li>فایل‌های ویدیویی، زیرنویس‌های واردشده (SRT، VTT، ASS) و فونت‌های شخصی فقط در حافظه دستگاه و پوشه خصوصی اپلیکیشن نگهداری می‌شوند.</li>
-        <li>تبدیل گفتار به متن (با مدل‌های Whisper) و رندر یا خروجی ویدیو (با FFmpeg) به‌صورت کامل و آفلاین روی گوشی انجام می‌شود.</li>
-        <li>تنظیمات اپ (تم، زبان، رنگ‌های ذخیره شده، قالب‌ها و وضعیت راهنمای اولیه) به‌صورت محلی در حافظه دستگاه ذخیره می‌شوند.</li>
-      </ul>
+        <h2>۲. پردازش و ذخیره‌سازی محلی</h2>
+        <ul>
+          <li>فایل‌های ویدیویی، زیرنویس‌های واردشده (SRT، VTT، ASS) و فونت‌های شخصی فقط در حافظه دستگاه و پوشه خصوصی اپلیکیشن نگهداری می‌شوند.</li>
+          <li>تبدیل گفتار به متن (با مدل‌های Whisper) و رندر یا خروجی ویدیو (با FFmpeg) به‌صورت کامل و آفلاین روی گوشی انجام می‌شود.</li>
+          <li>تنظیمات اپ (تم، زبان، رنگ‌های ذخیره شده، قالب‌ها و وضعیت راهنمای اولیه) به‌صورت محلی در حافظه دستگاه ذخیره می‌شوند.</li>
+        </ul>
 
-      <h2>۳. درخواست‌های شبکه و اینترنت</h2>
-      <p>
-        اپلیکیشن پس از دریافت مدل به‌صورت کاملاً آفلاین کار می‌کند. اتصال اینترنت تنها زمانی به خواست مستقیم شما استفاده می‌شود که:
-      </p>
-      <ul>
-        <li>در بخش مدیریت مدل‌ها اقدام به دانلود مدل‌های متن‌باز Whisper کنید.</li>
-        <li>لینک‌های خارجی مانند صفحه حریم خصوصی یا ارسال ایمیل به پشتیبانی را باز کنید.</li>
-      </ul>
-      <p>
-        در ابزار «هوش مصنوعی (کلیپ‌بورد)»، متن تنها با دستور شما در حافظه موقت دستگاه کپی می‌شود تا در سرویس دلخواه خودتان استفاده کنید و Vocap هیچ تماس خودکاری با سرورهای هوش مصنوعی برقرار نمی‌کند.
-      </p>
+        <h2>۳. درخواست‌های شبکه و اینترنت</h2>
+        <p>
+          اپلیکیشن پس از دریافت مدل به‌صورت کاملاً آفلاین کار می‌کند. اتصال اینترنت تنها زمانی به خواست مستقیم شما استفاده می‌شود که:
+        </p>
+        <ul>
+          <li>در بخش مدیریت مدل‌ها اقدام به دانلود مدل‌های متن‌باز Whisper کنید.</li>
+          <li>لینک‌های خارجی مانند صفحه حریم خصوصی یا ارسال ایمیل به پشتیبانی را باز کنید.</li>
+        </ul>
+        <p>
+          در ابزار «هوش مصنوعی (کلیپ‌بورد)»، متن تنها با دستور شما در حافظه موقت دستگاه کپی می‌شود تا در سرویس دلخواه خودتان استفاده کنید و Vocap هیچ تماس خودکاری با سرورهای هوش مصنوعی برقرار نمی‌کند.
+        </p>
 
-      <h2>۴. دسترسی‌ها (Permissions)</h2>
-      <ul>
-        <li><strong>دسترسی به فایل‌ها:</strong> صرفاً برای انتخاب ویدیو، زیرنویس یا فونت و ذخیره فایل خروجی با انتخاب شما.</li>
-        <li><strong>اعلان‌ها (Notifications):</strong> برای نمایش وضعیت پیشرفت یا اتمام دانلود مدل‌ها و پردازش ویدیو در پس‌زمینه.</li>
-      </ul>
+        <h2>۴. دسترسی‌ها (Permissions)</h2>
+        <ul>
+          <li><strong>دسترسی به فایل‌ها:</strong> صرفاً برای انتخاب ویدیو، زیرنویس یا فونت و ذخیره فایل خروجی با انتخاب شما.</li>
+          <li><strong>اعلان‌ها (Notifications):</strong> برای نمایش وضعیت پیشرفت یا اتمام دانلود مدل‌ها و پردازش ویدیو در پس‌زمینه.</li>
+        </ul>
 
-      <h2>۵. حریم خصوصی کودکان</h2>
-      <p>
-        این برنامه هیچ‌گونه اطلاعات شخصی از کاربران، از جمله کودکان، جمع‌آوری نمی‌کند.
-      </p>
+        <h2>۵. حریم خصوصی کودکان</h2>
+        <p>
+          این برنامه هیچ‌گونه اطلاعات شخصی از کاربران، از جمله کودکان، جمع‌آوری نمی‌کند.
+        </p>
 
-      <h2>۶. تغییرات در سیاست حریم خصوصی</h2>
-      <p>
-        در صورت افزوده شدن قابلیت‌های آنلاین یا تبلیغاتی در نسخه‌های آینده، این صفحه پیش از اعمال تغییرات به‌روزرسانی خواهد شد.
-      </p>
+        <h2>۶. تغییرات در سیاست حریم خصوصی</h2>
+        <p>
+          در صورت افزوده شدن قابلیت‌های آنلاین یا تبلیغاتی در نسخه‌های آینده، این صفحه پیش از اعمال تغییرات به‌روزرسانی خواهد شد.
+        </p>
 
-      <h2>۷. ارتباط با ما</h2>
-      <p>
-        در صورت وجود هرگونه پرسش درباره حریم خصوصی، از طریق ایمیل با ما در ارتباط باشید:
-        <a href="mailto:vocap.services@gmail.com">vocap.services@gmail.com</a>
-      </p>
-    </section>
+        <h2>۷. ارتباط با ما</h2>
+        <p>
+          در صورت وجود هرگونه پرسش درباره حریم خصوصی، از طریق ایمیل با ما در ارتباط باشید:
+          <a href="mailto:vocap.services@gmail.com">vocap.services@gmail.com</a>
+        </p>
+      </section>
 
-    <footer>
-      Vocap &middot; <a href="mailto:vocap.services@gmail.com">vocap.services@gmail.com</a>
-    </footer>
+      <footer class="doc-footer">
+        <span>Vocap <span aria-hidden="true">·</span> <a href="https://bitwizarder.github.io/vocap/" id="footer-docs-link">مستندات</a></span>
+        <a href="mailto:vocap.services@gmail.com" class="ltr">vocap.services@gmail.com</a>
+      </footer>
+    </div>
   </main>
 
   <script>
-    // --- 1. Language Switching Logic ---
+    const LANGUAGE_KEY = "vocap_language";
+    const THEME_KEY = "vocap_theme";
+
+    function readPreference(key, legacyKey) {
+      try { return localStorage.getItem(key) || (legacyKey ? localStorage.getItem(legacyKey) : null); }
+      catch (_) { return null; }
+    }
+    function savePreference(key, value, legacyKey) {
+      try {
+        localStorage.setItem(key, value);
+        if (legacyKey) localStorage.setItem(legacyKey, value);
+      } catch (_) { /* The page remains usable when storage is blocked. */ }
+    }
+
     function setLang(lang) {
-      var isFa = lang === "fa";
+      const safeLang = lang === "en" ? "en" : "fa";
+      const isFa = safeLang === "fa";
       document.getElementById("lang-en").classList.toggle("active", !isFa);
       document.getElementById("lang-fa").classList.toggle("active", isFa);
       document.getElementById("btn-en").classList.toggle("active", !isFa);
       document.getElementById("btn-fa").classList.toggle("active", isFa);
-      document.documentElement.lang = isFa ? "fa" : "en";
+      document.getElementById("btn-en").setAttribute("aria-pressed", String(!isFa));
+      document.getElementById("btn-fa").setAttribute("aria-pressed", String(isFa));
+      document.documentElement.lang = safeLang;
       document.documentElement.dir = isFa ? "rtl" : "ltr";
-      localStorage.setItem("vocap-privacy-lang", lang);
+      document.getElementById("docs-link").textContent = isFa ? "مستندات" : "Documentation";
+      document.getElementById("footer-docs-link").textContent = isFa ? "مستندات" : "Documentation";
+      document.getElementById("brand-sub").textContent = isFa ? "حریم خصوصی" : "Privacy";
+      document.getElementById("theme-toggle").setAttribute("aria-label", isFa ? "تغییر پوسته" : "Toggle theme");
+      savePreference(LANGUAGE_KEY, safeLang, "vocap-privacy-lang");
     }
 
-    // --- 2. Theme Switching Logic ---
     const themeToggleBtn = document.getElementById("theme-toggle");
+    const iconMoon = document.getElementById("icon-moon");
+    const iconSun = document.getElementById("icon-sun");
 
     function setTheme(theme) {
-      document.documentElement.setAttribute("data-theme", theme);
-      localStorage.setItem("vocap-privacy-theme", theme);
-      
-      // Update icon
-      themeToggleBtn.textContent = theme === "dark" ? "☀️" : "🌙";
-      
-      // Update mobile browser theme color
-      const metaTheme = document.querySelector('meta[name="theme-color"]');
-      if (metaTheme) {
-        metaTheme.setAttribute("content", theme === "dark" ? "#0b0f19" : "#f8fafc");
-      } else {
-        const meta = document.createElement("meta");
-        meta.name = "theme-color";
-        meta.content = theme === "dark" ? "#0b0f19" : "#f8fafc";
-        document.head.appendChild(meta);
-      }
+      const safeTheme = theme === "light" ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", safeTheme);
+      iconMoon.style.display = safeTheme === "light" ? "block" : "none";
+      iconSun.style.display = safeTheme === "dark" ? "block" : "none";
+      themeToggleBtn.setAttribute("aria-label", safeTheme === "dark" ? "Switch to light theme" : "Switch to dark theme");
+      themeToggleBtn.title = safeTheme === "dark" ? "Switch to light theme" : "Switch to dark theme";
+      savePreference(THEME_KEY, safeTheme, "vocap-privacy-theme");
     }
 
     function toggleTheme() {
@@ -360,24 +507,12 @@
       setTheme(currentTheme === "dark" ? "light" : "dark");
     }
 
-    // --- 3. Initialization on Load ---
-    document.addEventListener("DOMContentLoaded", function() {
-      // Check Language
-      var savedLang = localStorage.getItem("vocap-privacy-lang");
-      if (savedLang) {
-        setLang(savedLang);
-      }
-
-      // Check Theme (Default to system preference if none saved)
-      var savedTheme = localStorage.getItem("vocap-privacy-theme");
-      if (savedTheme) {
-        setTheme(savedTheme);
-      } else {
-        var prefersLight = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches;
-        setTheme(prefersLight ? "light" : "dark");
-      }
-
-      // Attach click event to theme button
+    document.addEventListener("DOMContentLoaded", function () {
+      const savedLang = readPreference(LANGUAGE_KEY, "vocap-privacy-lang") || "fa";
+      const savedTheme = readPreference(THEME_KEY, "vocap-privacy-theme");
+      const prefersLight = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches;
+      setLang(savedLang);
+      setTheme(savedTheme || (prefersLight ? "light" : "dark"));
       themeToggleBtn.addEventListener("click", toggleTheme);
     });
   </script>
